@@ -124,8 +124,9 @@ var known = [
       sha1: "edc5d3d70a93c935703d26119b37731fd317d2bf",
       sha256: "82e4011dd7a9c3a3409e5f59df98320277962812388d6243f8e157a465761578",
     },
-    version: "1.01d",
-    region: "EU",
+    version: "1.01d-mod",
+    region: "?",
+    notes: "Based on 1.01d, has replaced Japanese w/ Chinese on the menus, and the word 'Japanese' to 'Chinese' on English texts. Could be from Treamcast, as Dreamcast had no release on China. ",
     strings: [
       "SEGA SEGAKATANA  KABUTO Ver.1.01d Copyright(c) SEGA ENTERPRISES, LTD., 1998,1999",
       "GDC Version 1.10 1999-03-31 MP",
@@ -163,7 +164,8 @@ var known = [
       sha256: "88d6a666495ad14ab5988d8cb730533cfc94ec2cfd53a7eeda14642ab0d4abf9",
     },
     version: "1.01d",
-    region: "US",
+    region: "US EU",
+    notes: "Original US/EU bios (region diffs are in flash)",
     strings: [
       "SEGA SEGAKATANA  KABUTO Ver.1.01d Copyright(c) SEGA ENTERPRISES, LTD., 1998,1999",
       "GDC Version 1.10 1999-03-31 MP",
@@ -202,6 +204,7 @@ var known = [
     },
     version: "1.004",
     region: "JP",
+    notes: "Original Japan Dreamcast bios",
     strings: [
       "SEGA SEGAKATANA  KABUTO Ver.1.004 Copyright(c) SEGA ENTERPRISES, LTD., 1998",
       "GDC Version 1.01 1998-09-30 MP",
@@ -232,6 +235,45 @@ var known = [
       "gdFs Ver 1.00 Build:Sep 28 1998 19:43:45",
     ]
   },
+  
+  {
+    hash: {
+      md5: "f2cd29d09f3e29984bcea22ab2e006fe",
+      sha1: "ba8bbb90fdb29525f24f17055dc2c7b2d7674437",
+      sha256: "f8ccf4ede4e2e3bbe28e7da080008e1711327e371349a3554c0d7c970d1492b9",
+    },
+    version: "1.022",
+    region: "?",
+    notes: "No milcd support. Looks like the late-2000 update that can only boot gdroms.",
+    strings: [
+      "SEGA SEGAKATANA  KABUTO Ver.1.022 Copyright(c) SEGA ENTERPRISES, LTD., 1998,2000",
+      "GDC Version 1.10 1999-03-31 MP",
+      "syTmr Version: 0.51",
+      "syRtc Ver 1.00 Build:Sep 28 1998 05:10:44",
+      "syInt Ver 1.02 Build:Oct 08 1998 19:31:47",
+      "fmMng Ver 1.00 Build:Sep 29 1998 14:42:44",
+      "bu Ver 1.07BTR Build:Sep 26 1998 23:18:12",
+      "syRtc Ver 1.02 Build:Mar 02 1999 19:03:33",
+      "syCbl Ver 1.10 Build:Mar 02 1999 18:43:53",
+      "syG2 Ver 1.01.02 Build:Mar 03 1999 14:58:36",
+      "Ninja Ver 00060060 Build:Sep 30 1998 14:46:43",
+      "pd Ver 1.46 Build:Mar 03 1999 11:01:47",
+      "syCache Ver 1.35 Build:Mar 03 1999 10:47:24",
+      "syChain Ver 1.35 Build:Mar 03 1999 10:47:40",
+      "syInt Ver 1.35 Build:Mar 03 1999 10:48:18",
+      "syMalloc Ver 1.35 Build:Mar 03 1999 10:48:43",
+      "syHw Ver 1.06 Build:Mar 02 1999 20:54:17",
+      "syTmr Ver 1.03 Build:Mar 01 1999 18:07:27",
+      "kd Ver 1.45 Build:Mar 02 1999 20:53:33",
+      "pdLcd Ver 1.03 Build:Mar 02 1999 20:54:11",
+      "pdTmr Ver 1.05 Build:Mar 02 1999 20:54:15",
+      "syBtCfg Ver 1.02 Build:Mar 03 1999 15:44:22",
+      "sySq Ver 1.35 Build:Mar 03 1999 10:49:28",
+      "fmMng Ver 1.03 Build:Mar 03 1999 15:43:57",
+      "sd Ver 1.00.17 Build:Mar 03 1999 15:10:38",
+      "gdFs Ver 1.07 Build:Mar 03 1999 15:41:47",
+    ]
+  },
 ];
 
 
@@ -260,6 +302,8 @@ function displayBios(file) {
         $("<div class='hash'>").text("sha256: " + match.hash.sha256).appendTo(root);
         
         
+        var notes = $("<div class='strings'>").text("Notes").appendTo(root);
+        $("<div>").text(match.notes).appendTo(notes);
         
         var strings = $("<div class='strings'>").text("Known version strings").appendTo(root);
         var list = $("<ul>").appendTo(strings);
