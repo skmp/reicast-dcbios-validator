@@ -47,11 +47,11 @@ body {
   font-style: italic;
 }
 
-.strings {
+.strings, .notes {
   margin-top: 1em;
 }
 
-.strings, .strings li {
+.strings, .strings li, .notes, .notes div {
   font-size: 0.7em;
 }
 
@@ -112,9 +112,6 @@ body {
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1/build/components/core.js"></script>
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1/build/components/sha1.js"></script>
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1/build/components/lib-typedarrays.js"></script>
-
-
-<script src="jquery-1.10.2.js"></script>
 
 <script>
 var known = [
@@ -302,7 +299,7 @@ function displayBios(file) {
         $("<div class='hash'>").text("sha256: " + match.hash.sha256).appendTo(root);
         
         
-        var notes = $("<div class='strings'>").text("Notes").appendTo(root);
+        var notes = $("<div class='notes'>").text("Notes").appendTo(root);
         $("<div>").text(match.notes).appendTo(notes);
         
         var strings = $("<div class='strings'>").text("Known version strings").appendTo(root);
