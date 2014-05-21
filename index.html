@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="image_src" href="logo.jpg">
+  <title>Bios verification util</title>
+</head>
+<body style="">
+
+<style>
+body {
+  text-align: center;
+  color: lightgray;
+  background: #1a1a1a;
+  margin-top: 7%;
+  font-size: 266%;
+}
+
+.drop {
+  margin-top: 2em;
+	min-height: 6em;
+	min-width: 70%;
+	max-width: 90%;
+	background: #222;
+	display: inline-block;
+	border: dashed 0.1em gray;
+	border-radius: 0.4em;
+
+	position: relative;
+}
+
+.drop-footer {
+  font-size: 54%;
+  color: #997;
+  position: absolute;
+  bottom: 0px;
+  left: 0.2em;
+  right: 0.2em;
+  padding-bottom: 0.4em;
+}
+
+#thumbs {
+  margin-bottom: 2em;
+}
+.hash {
+  font-size: 0.40em;
+  font-family: monospace;
+  font-style: italic;
+}
+
+.strings {
+  margin-top: 1em;
+}
+
+.strings, .strings li {
+  font-size: 0.7em;
+}
+
+.strings li {
+  list-style-type: none;
+  margin: 0.4em;
+}
+
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	color: lightgrey;
+	background: black;
+	padding: 0.6em 0 0.5em 0;
+}
+
+.footer {
+	font-size: 0.4em;
+	position: fixed;
+	bottom: 0.6em;
+	left: 0;
+	right: 0;
+	text-align: center;
+	color: lightgrey;
+	background: rgba(0,0,0,0.5);
+	padding: 0.6em 0 0.5em 0;
+}
+
+</style>
+<div class="drop" ondragenter="return false" ondragover="return false" ondrop="dropIt(event)">
+    <div id="thumbs"></div>
+    <span class="drop-footer">
+    Drag and drop a bios file here
+    </span>
+</div>
+
+
+<br />
+<div id="res" ></div> <br />
+
+
+<div class="header">
+  Validate your dreamcast bios!
+</div>
+
+<div class="footer">
+  My back is in pain :'(
+</div>
+	
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<!-- ... other imports, including the SHA1 implementation ... -->
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1/build/components/core.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1/build/components/sha1.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1/build/components/lib-typedarrays.js"></script>
+
+
+<script src="jquery-1.10.2.js"></script>
+
+<script>
+var known = [
+  {
+    hash: {
+      md5: "a5c6a00818f97c5e3e91569ee22416dc",
+      sha1: "edc5d3d70a93c935703d26119b37731fd317d2bf",
+      sha256: "82e4011dd7a9c3a3409e5f59df98320277962812388d6243f8e157a465761578",
+    },
+    version: "1.01d",
+    region: "EU",
+    strings: [
+      "SEGA SEGAKATANA  KABUTO Ver.1.01d Copyright(c) SEGA ENTERPRISES, LTD., 1998,1999",
+      "GDC Version 1.10 1999-03-31 MP",
+      "syTmr Version: 0.51",
+      "syRtc Ver 1.00 Build:Sep 28 1998 05:10:44",
+      "syInt Ver 1.02 Build:Oct 08 1998 19:31:47",
+      "fmMng Ver 1.00 Build:Sep 29 1998 14:42:44",
+      "bu Ver 1.07BTR Build:Sep 26 1998 23:18:12",
+      "syRtc Ver 1.02 Build:Mar 02 1999 19:03:33",
+      "syCbl Ver 1.10 Build:Mar 02 1999 18:43:53",
+      "syG2 Ver 1.01.02 Build:Mar 03 1999 14:58:36",
+      "Ninja Ver 00060060 Build:Sep 30 1998 14:46:43",
+      "pd Ver 1.46 Build:Mar 03 1999 11:01:47",
+      "syCache Ver 1.35 Build:Mar 03 1999 10:47:24",
+      "syChain Ver 1.35 Build:Mar 03 1999 10:47:40",
+      "syInt Ver 1.35 Build:Mar 03 1999 10:48:18",
+      "syMalloc Ver 1.35 Build:Mar 03 1999 10:48:43",
+      "syHw Ver 1.06 Build:Mar 02 1999 20:54:17",
+      "syTmr Ver 1.03 Build:Mar 01 1999 18:07:27",
+      "kd Ver 1.45 Build:Mar 02 1999 20:53:33",
+      "pdLcd Ver 1.03 Build:Mar 02 1999 20:54:11",
+      "pdTmr Ver 1.05 Build:Mar 02 1999 20:54:15",
+      "syBtCfg Ver 1.02 Build:Mar 03 1999 15:44:22",
+      "sySq Ver 1.35 Build:Mar 03 1999 10:49:28",
+      "fmMng Ver 1.03 Build:Mar 03 1999 15:43:57",
+      "sd Ver 1.00.17 Build:Mar 03 1999 15:10:38",
+      "gdFs Ver 1.07 Build:Mar 03 1999 15:41:47"
+    ]
+  },
+  
+  {
+    hash: {
+      md5: "e10c53c2f8b90bab96ead2d368858623",
+      sha1: "8951d1bb219ab2ff8583033d2119c899cc81f18c",
+      sha256: "88d6a666495ad14ab5988d8cb730533cfc94ec2cfd53a7eeda14642ab0d4abf9",
+    },
+    version: "1.01d",
+    region: "US",
+    strings: [
+      "SEGA SEGAKATANA  KABUTO Ver.1.01d Copyright(c) SEGA ENTERPRISES, LTD., 1998,1999",
+      "GDC Version 1.10 1999-03-31 MP",
+      "syTmr Version: 0.51",
+      "syRtc Ver 1.00 Build:Sep 28 1998 05:10:44",
+      "syInt Ver 1.02 Build:Oct 08 1998 19:31:47",
+      "fmMng Ver 1.00 Build:Sep 29 1998 14:42:44",
+      "bu Ver 1.07BTR Build:Sep 26 1998 23:18:12",
+      "syRtc Ver 1.02 Build:Mar 02 1999 19:03:33",
+      "syCbl Ver 1.10 Build:Mar 02 1999 18:43:53",
+      "syG2 Ver 1.01.02 Build:Mar 03 1999 14:58:36",
+      "Ninja Ver 00060060 Build:Sep 30 1998 14:46:43",
+      "pd Ver 1.46 Build:Mar 03 1999 11:01:47",
+      "syCache Ver 1.35 Build:Mar 03 1999 10:47:24",
+      "syChain Ver 1.35 Build:Mar 03 1999 10:47:40",
+      "syInt Ver 1.35 Build:Mar 03 1999 10:48:18",
+      "syMalloc Ver 1.35 Build:Mar 03 1999 10:48:43",
+      "syHw Ver 1.06 Build:Mar 02 1999 20:54:17",
+      "syTmr Ver 1.03 Build:Mar 01 1999 18:07:27",
+      "kd Ver 1.45 Build:Mar 02 1999 20:53:33",
+      "pdLcd Ver 1.03 Build:Mar 02 1999 20:54:11",
+      "pdTmr Ver 1.05 Build:Mar 02 1999 20:54:15",
+      "syBtCfg Ver 1.02 Build:Mar 03 1999 15:44:22",
+      "sySq Ver 1.35 Build:Mar 03 1999 10:49:28",
+      "fmMng Ver 1.03 Build:Mar 03 1999 15:43:57",
+      "sd Ver 1.00.17 Build:Mar 03 1999 15:10:38",
+      "gdFs Ver 1.07 Build:Mar 03 1999 15:41:47"
+    ]
+  },
+  
+  {
+    hash: {
+      md5: "37c921eb47532cae8fb70e5d987ce91c",
+      sha1: "1ea132c0fbbf07ef76789eadc07908045c089bd6",
+      sha256: "fa3d4fc69c9cc7435c2e03fdc082dce620331ed63f9cd66927a114e80af2e2b6",
+    },
+    version: "1.004",
+    region: "JP",
+    strings: [
+      "SEGA SEGAKATANA  KABUTO Ver.1.004 Copyright(c) SEGA ENTERPRISES, LTD., 1998",
+      "GDC Version 1.01 1998-09-30 MP",
+      "syTmr Version: 0.51",
+      "syRtc Ver 1.00 Build:Sep 28 1998 05:10:44",
+      "syInt Ver 1.00 Build:Sep 16 1998 14:37:57",
+      "fmMng Ver 1.00 Build:Sep 29 1998 14:42:44",
+      "bu Ver 1.07BTR Build:Sep 26 1998 23:18:12",
+      "syBtCfg Ver 1.00 Build:Sep 29 1998 15:00:47",
+      "Ninja Ver 00060060 Build:Sep 30 1998 14:46:43",
+      "kd Ver 1.21 Build:Sep 24 1998 21:32:40",
+      "pdLcd Ver 1.01 Build:Sep 11 1998 23:34:43",
+      "pd Ver 1.07 Build:Sep 07 1998 11:53:37",
+      "pdTmr Ver 1.03 Build:Sep 22 1998 22:56:09",
+      "syCbl Ver 1.00 Build:Sep 29 1998 13:22:53",
+      "syRtc Ver 1.00 Build:Sep 28 1998 05:02:55",
+      "syTmr Ver 1.00 Build:Sep 25 1998 12:34:18",
+      "syCache Ver 1.03 Build:Sep 30 1998 18:03:31",
+      "syChain Ver 1.01 Build:Oct 01 1998 16:37:03",
+      "syInt Ver 1.00 Build:Sep 16 1998 14:37:57",
+      "syMalloc Ver 1.00 Build:Sep 16 1998 14:48:33",
+      "syHw Ver 1.01 Build:Sep 07 1998 11:53:40",
+      "fmMng Ver 1.00 Build:Sep 29 1998 14:42:44",
+      "sd Ver 0.57.01 Build:Sep 11 1998 17:03:37",
+      "syDma Ver 1.00 Build:Sep 16 1998 14:37:09",
+      "sySq Ver 1.00 Build:Sep 16 1998 14:38:15",
+      "syG2 Ver 0.52.08 Build:Sep 11 1998 17:02:48",
+      "gdFs Ver 1.00 Build:Sep 28 1998 19:43:45",
+    ]
+  },
+];
+
+
+function displayBios(file) {
+
+    var info = $('#thumbs');
+    info.empty();
+    
+    var reader = new FileReader();
+    reader.onloadend = function (evt) {
+      var hash =  CryptoJS.SHA1(CryptoJS.lib.WordArray.create(new Uint8Array(evt.target.result)));
+      console.log("hash", hash);
+      
+      var match;
+      _.every(known, function(v, k) {
+        return v.hash.sha1==hash && (match = v);
+      });
+      
+      var root = $("<div>").appendTo(info);
+
+      if (match) {
+        $("<div>").text( match.version + "/" + match.region).appendTo(root);
+      
+        $("<div class='hash'>").text("md5: " + match.hash.md5).appendTo(root);
+        $("<div class='hash'>").text("sha1: " + match.hash.sha1).appendTo(root);
+        $("<div class='hash'>").text("sha256: " + match.hash.sha256).appendTo(root);
+        
+        
+        
+        var strings = $("<div class='strings'>").text("Known version strings").appendTo(root);
+        var list = $("<ul>").appendTo(strings);
+        
+        _.each(match.strings, function(v) {
+          $("<li>").text(v).appendTo(list);
+        });        
+      }
+      else {
+        alert("Unknown bios :'(");
+        
+        $("<div>").text(  "Unknown bios").appendTo(root);
+        $("<div class='hash'>").text("sha1: " + hash).appendTo(root);
+      }
+      
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function imagesSelected(myFiles) {
+  if (myFiles.length != 1)
+    alert("Please drop a single file");
+  else {
+    displayBios(myFiles[0]);        
+  }
+}
+
+function dropIt(e) {  
+   e.stopPropagation();
+   e.preventDefault();
+   imagesSelected(e.dataTransfer.files);
+}
+</script>
+
+<!-- I Really love people that inspect pages <3 -->
+</body></html>
