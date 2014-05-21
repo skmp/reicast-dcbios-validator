@@ -247,7 +247,7 @@ function displayBios(file) {
       
       var match;
       _.every(known, function(v, k) {
-        return v.hash.sha1==hash && (match = v);
+        return !(v.hash.sha1==hash && (match = v));
       });
       
       var root = $("<div>").appendTo(info);
