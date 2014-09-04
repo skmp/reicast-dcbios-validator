@@ -2,8 +2,8 @@
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="">
-<meta name="keywords" content="">
+<meta name="description" content="A Sega Dreamcast BIOS verification utility">
+<meta name="keywords" content="Sega, sega, Dreamcast, dreamcast, BIOS, Bios, bios, Treamcast, treamcast, utility, Utility, tool, Tool">
 <meta name="author" content="">
 <link rel="icon" type="image/icon" href="favicon.ico">
 <title>Sega Dreamcast BIOS verification utility</title>
@@ -89,14 +89,16 @@ padding: 0.6em 0 0.5em 0;
 
 </style>
 <div class="drop" ondragenter="return false" ondragover="return false" ondrop="dropIt(event)">
-<div id="thumbs"></div>
+<div id="thumbs">
+</div>
 <span class="drop-footer">
 Drag and drop a BIOS file dump here
 </span>
 </div>
 
 <br/>
-<div id="res" ></div><br/>
+<div id="res" ></div>
+<br/>
 
 <div class="header">
 Validate your Sega Dreamcast BIOS!
@@ -114,6 +116,8 @@ My back feels better because <a href = "https://www.github.com/vgturtle127"> Tur
 <script src="js/arrays.js"></script>
 
 <!-- We should eventually synchronize this with the MESS list of Sega Dreamcast BIOS files/dumps. It won't be hard, just time consuming. As soon as I get the MESS list and get the dumps, I will start getting hashes.-->
+
+<!-- Also, due to the few BIOS dumps that could exist, we may want to switch to a shorter hash algorithm, like CRC, or CRC32. Using anything above 10 characters seems excessive. Just a thought. :) -->
 
 <script>
 var known = [
